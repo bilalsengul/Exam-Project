@@ -63,7 +63,7 @@
                                 @if (Request.IsAuthenticated && User.IsInRole("admin"))
                                 {
                                     
-                                    <li class="btn-cta"><a style="color:whitesmoke" href="@Url.Action("Index", "AdminManager", new { area = "" })"><span>Admin Paneli</span></a></li>
+                                    <li class="btn-cta"><a style="color:whitesmoke" href="@Url.Action("Exams", "Admin", new { area = "" })"><span>Admin Paneli</span></a></li>
                                 }
                                 @if (Request.IsAuthenticated)
                                 {
