@@ -67,28 +67,35 @@
             </div>
         </div>
         <div class="row">
-            @foreach (var item in Model)
+            @if (!(User.IsInRole("admin")))
             {
-                if (item.ExamTypeName == null)
+                foreach (var item in Model)
                 {
-                    continue;
 
-                }
-                <div class="col-md-6 animate-box">
-                    <div class="course">
-                        <a href="#" class="course-img" style="background-image: url(../Content/edutemplate/images/project-1.jpg);">
-                        </a>
-                        <div class="desc">
-                            <h3><a href="#">@item.ExamTypeName</a></h3>
-                            <p>@item.Desc</p>
+                    if (item.ExamTypeName == null)
+                 {
+                     continue;
+
+                 }
+                      <div class="col-md-6 animate-box">
+                          <div class="course">
+                              <a href="#" class="course-img" style="background-image: url(../Content/edutemplate/images/project-1.jpg);">
+                              </a>
+                              <div class="desc">
+                                  <h3><a href="#">@item.ExamTypeName</a></h3>
+                                  <p>@item.Desc</p>
 
 
 
-                            <span><a href="@Url.Action("Exams", "Home", new { id=item.Id})" class="btn btn-primary btn-sm btn-course">Sınava Katıl</a></span>
+                                  <span><a href="@Url.Action("Exams", "Home", new { id = item.Id })" class="btn btn-primary btn-sm btn-course">Sınava Katıl</a></span>
 
-                        </div>
-                    </div>
-                </div>
+                              </div>
+                          </div>
+                      </div>}
+            }
+            else
+            {
+            <h2 class="btn-funky-moon" style="border-radius:2rem; text-align:center;"> Admin olarak sınava giriş yapılamamaktadır.   </h2>
             }
         </div>
         
