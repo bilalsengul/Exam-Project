@@ -1,0 +1,29 @@
+﻿@{
+    var logInUser = (SanalDenemem.MvcWebUI.Identity.ApplicationUser)Session["LogonUser"];
+}
+
+    @if (Request.IsAuthenticated)
+    {
+        
+            var logId = User.Identity.Name;
+            if (logInUser != null)
+            {
+                logId = logInUser.Id;
+            }
+            
+
+        
+
+        <li class="btn-cta">
+            <a href="@Url.Action("Profile","Members",new { id =logId })"><span>Profil</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="btn-cta" href="/account/logout"><span>cıkış</span></a>
+        </li>
+
+    }
+    else
+    {
+        <li class="btn-cta"><a href="/account/login"><span>Giris Yap</span></a></li>
+        <li class="btn-cta"><a href="/account/register"><span>Kayit ol</span></a></li>
+    }

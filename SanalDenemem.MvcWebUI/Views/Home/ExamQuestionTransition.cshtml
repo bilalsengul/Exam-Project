@@ -1,0 +1,44 @@
+﻿@model SanalDenemem.MvcWebUI.Entity.Exam
+
+@{
+    ViewBag.Title = "ExamQuestionTransition";
+    Layout = "~/Views/Shared/_denemeLayout.cshtml";
+}
+
+<div style="text-align: center;">
+    <br />
+    <h1>Sınava Geçiş Ekranı</h1>
+    <h4 class="table-responsive">(Sınav Süresi: @Model.ExamTime dk)</h4>
+    <style>
+
+        .container {
+            border-style: outset;
+            border-radius: 20px;
+            box-shadow: 5px 10px 18px #888888;
+        }
+
+        .gradient-list {
+            font-weight: 200;
+        }
+    </style>
+
+    <div class="container">
+        <ol class="gradient-list" style="text-align:left; font-size:18px;color:black;font-weight:normal; margin:20px">
+            <h3 style="text-align:center; font-size:32px;">Sınavı başlatmak için butona basın.</h3>
+          
+
+        </ol>
+    </div>
+
+  
+
+    <br />
+    <br />
+
+    @Html.ActionLink("Sınavı Başlat", "ExamQuestion", "Home", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    <br />
+    <br />
+    <br />
+    <br />
+
+</div>

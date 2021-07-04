@@ -1,0 +1,83 @@
+﻿@model SanalDenemem.MvcWebUI.Controllers.HomeController.IndexViewModel
+@{
+    ViewBag.Title = "ExamsShowResult";
+    Layout = "~/Views/Shared/_denemeLayout.cshtml";
+}
+
+<div id="fh5co-course">
+    <div class="container">
+        <div class="row animate-box">
+            <div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
+                <h2>Sınav Sonuçları Sıralaması</h2>
+            </div>
+        </div>
+        <div class="row">
+            @using (Html.BeginForm())
+            {
+                <div class="col-md-5">
+                    @Html.DropDownListFor(m => m.SelectedExamTypeId, (SelectList)ViewBag.ExamTypesData, "Sınav Tipi Seçiniz...", new { @class = "dropdown form-control" })
+                </div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(m => m.SelectedExamId, (SelectList)ViewBag.ExamsData, "Sınav Seçiniz...", new { @class = "dropdown form-control" })
+                </div>
+            }
+            <div class="col-md-2">
+                <button style="width: 100%;" class="btn btn-success" onclick="ShowResult()">Listele</button>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 2%;">
+            <div id="tableResult" class="col-md-12">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Sınav Tipi değiştiğinde çalışır.
+    $("#SelectedExamTypeId").change(function () {
+        var ddlExamType = $(this);
+        var examTypeId = ddlExamType.val();
+        if (examTypeId != "") {
+            $.ajax({
+                method: "GET",
+                url: '@Url.Action("GetExamsByExamType", "Home")' + '/' + examTypeId,
+                beforeSend: function () {
+                    $("#SelectedExamId option").not(":first").remove();
+                }
+            }).done(function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    var exam = result[i];
+                    $("#SelectedExamId").append(createOption(exam.Id, exam.Title));
+                }
+            });
+        } else {
+            $("#SelectedExamId option").not(":first").remove();
+        }
+    });
+
+    //DDL için option oluşturur.
+    function createOption(code, text) {
+        return "<option value=" + code + ">" + text + "</option>"
+    }
+
+    function ShowResult() {
+        $.ajax({
+            method: "GET",
+            url: '@Url.Action("ExamResultDetails", "Home")',
+            data: { id: $("#SelectedExamId").val() },
+            success: function (result) {
+                console.log(result);
+                $("#tableResult").html(result);
+                $('#myTable').DataTable({
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Turkish.json"
+                    }
+                } );
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>

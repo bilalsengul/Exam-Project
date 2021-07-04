@@ -1,0 +1,35 @@
+﻿@model List<SanalDenemem.MvcWebUI.Entity.Exam>
+@{
+    ViewBag.Title = "Exams";
+    Layout = "~/Views/Shared/_TemplateLayout.cshtml";
+}
+
+<div id="fh5co-course">
+    <div class="container">
+        <div class="row animate-box">
+            <div class="col-md-12 text-center fh5co-heading">
+                <h2>Denemeler   </h2>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 animate-box">
+                    <div class="course">
+                        <img class="course-img" src="~/Content/Images/manset-2020-sinav-takvimi-1576876560.jpg" />
+                        <div class="desc">
+                            <h3><a href="#">@item.Title</a></h3> 
+                            
+                            @if (Request.IsAuthenticated )
+                            {
+                                <span><a href="@Url.Action("ExamQuestionTransition", "Home", new { id=item.Id})" target="_blank" class="btn btn-primary btn-sm btn-course">Sınava Gir</a></span>
+                            }
+                            
+        
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

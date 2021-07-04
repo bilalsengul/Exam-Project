@@ -1,0 +1,175 @@
+﻿@{
+    var logInUser = (SanalDenemem.MvcWebUI.Identity.ApplicationUser)Session["LogonUser"];
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online exam, çevrimiçi sınav , online sınav, sınavlar, online kurs" />
+    <meta name="keywords" content="Online exam, çevrimiçi sınav , online sınav, sınavlar, online kurs" />
+    <link rel="apple-touch-icon" href="~/Content/edutemplate/images/ikon.ico" />
+    <link rel="icon" type="image/ico" href="~/Content/edutemplate/images/ikon.ico" />
+
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/bootstrap.css">
+
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/magnific-popup.css">
+
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/edutemplate/css/owl.theme.default.min.css">
+
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/flexslider.css">
+
+    <!-- Pricing -->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/pricing.css">
+
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="~/Content/edutemplate/css/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="~/Content/edutemplate/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+
+
+</head>
+<body >
+
+    <div class="fh5co-loader"></div>
+
+    <div id="page">
+        <nav class="fh5co-nav" role="navigation">
+            <div class="top" style="background-color:lightblue">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                         
+
+                            <ul class="fh5co-social">
+
+                                @if (Request.IsAuthenticated && User.IsInRole("admin"))
+                                {
+                                    
+                                    <li class="btn-cta"><a style="color:whitesmoke" href="@Url.Action("Index", "AdminManager", new { area = "" })"><span>Admin Paneli</span></a></li>
+                                }
+                                @if (Request.IsAuthenticated)
+                                {
+                                    var logId = User.Identity.Name;
+                                    if (logInUser != null)
+                                    {
+                                        logId = logInUser.Id;
+                                    }
+                                    if (!(User.IsInRole("admin")))
+                                    {
+                                        <li class="btn-cta">
+                                            <a style="color:whitesmoke" href="@Url.Action("Profile","Members",new { id =logId })"><span>Profil</span></a>
+                                        </li>
+                                    }
+                                    <li class="btn-cta">
+                                        <a style="color:whitesmoke" href="@Url.Action("Logout","Account")"><span>Çıkış</span></a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="btn-cta"><a href="@Url.Action("Login","Account")"><span>Giris Yap</span></a></li>
+                                    <li class="btn-cta"><a href="@Url.Action("Register","Account")"><span>Kayit ol</span></a></li>
+                                }
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="top-menu" style="background-color:white">
+              
+            </div>
+            <div class="top-menu" style="background-color:#202c45">
+                <div class="container">
+                    <div class="row">
+
+                        @if (!(User.IsInRole("admin")))
+                        {
+                        <div class="col-xs-push-12 text-sm-center menu-1 ">
+                            <ul>
+                                <li><a style="color:whitesmoke; font-size:20px" href="@Url.Action("ExamTypes","Home")">Sınavlar</a></li>
+
+                            </ul>
+                        </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <div id="mainsection">
+
+            @RenderBody()
+
+        </div>
+
+        <footer id="fh5co-footer" role="contentinfo" style="background-image: url(~/Content/edutemplate/images/img_bg_4.jpg);">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row row-pb-md">
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1 fh5co-widget">
+                        <h3>ÜYELİK İŞLEMLERİ</h3>
+                        <ul class="fh5co-footer-links">
+                            <li><a href="@Url.Action("Register","Account")">Kayıt Ol</a></li>
+                            <li><a href="@Url.Action("Login","Account")">Giriş Yap</a></li>
+
+                        </ul>
+                    </div>
+
+                </div>
+
+             
+
+            </div>
+        </footer>
+    </div>
+
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+    </div>
+
+    <!-- jQuery -->
+    <script src="~/Content/edutemplate/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="~/Content/edutemplate/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Content/edutemplate/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="~/Content/edutemplate/js/jquery.waypoints.min.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="~/Content/edutemplate/js/jquery.stellar.min.js"></script>
+    <!-- Carousel -->
+    <script src="~/Content/edutemplate/js/owl.carousel.min.js"></script>
+    <!-- Flexslider -->
+    <script src="~/Content/edutemplate/js/jquery.flexslider-min.js"></script>
+    <!-- countTo -->
+    <script src="~/Content/edutemplate/js/jquery.countTo.js"></script>
+    <!-- Magnific Popup -->
+    <script src="~/Content/edutemplate/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Content/edutemplate/js/magnific-popup-options.js"></script>
+    <!-- Count Down -->
+    <script src="~/Content/edutemplate/js/simplyCountdown.js"></script>
+    <!-- Main -->
+    <script src="~/Content/edutemplate/js/main.js"></script>
+   
+</body>
+</html>

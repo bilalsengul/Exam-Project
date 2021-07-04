@@ -1,0 +1,170 @@
+﻿@model SanalDenemem.MvcWebUI.Models.ExamResultSub
+
+@{
+    ViewBag.Title = Model.member.Name;
+    Layout = "~/Views/Shared/_denemeLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" href="~/Content/profil/css/animate.css">
+    <title>Sanal Denemem </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online exam, çevrimiçi sınav , online sınav, sınavlar, online kurs" />
+    <meta name="keywords" content="Online exam, çevrimiçi sınav , online sınav, sınavlar, online kurs" />
+    <link rel="apple-touch-icon" href="images/ikon.ico" />
+    <link rel="icon" type="image/ico" href="images/ikon.ico" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Content/profil/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/profil/assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="~/Content/profil/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/Content/profil/assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="~/Content/profil/assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/Content/profil/assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Content/profil/assets/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<style>
+    .skill {
+        font-size: 20px
+    }
+
+    .card-header {
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .card-title {
+        font-size: 14px;
+        color: white;
+    }
+</style>
+<body>
+
+    <!-- ======= Mobile nav toggle button ======= -->
+    <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="d-flex flex-column">
+
+           
+
+            <nav class="nav-menu">
+                <ul>
+                  
+                    <li id="portfolioLink"><a href="#portfolio"><i class="bx bx-book-content"></i> <span>Sınav Sonuçları</span></a></li>
+                    <li><a href="@Url.Action("ExamTypes","Home")"><i class="icon-arrow-back"></i> <span>Çıkış Yap</span></a></li>
+
+                </ul>
+            </nav><!-- .nav-menu -->
+            <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+
+        </div>
+    </header><!-- End Header -->
+
+
+
+    <main id="main">
+       
+
+       
+        <section id="portfolio" class="portfolio section-bg">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Sınav Sonuçları</h2>
+
+                </div>
+
+                <div class="row" data-aos="fade-up">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <ul id="portfolio-flters">
+                            <li data-filter="*" class="filter-active">Tüm Sınavlar</li>
+                            @foreach (var item in Model.ExamTypes)
+                            {
+                                <li data-filter=".filter-@item.Id">@item.ExamTypeName</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
+
+                    @foreach (var item in Model.ExamTypes)
+                    {
+                        foreach (var item2 in item.Exams)
+                        {
+                            if (Model.exams.Contains(item2))
+                            {
+                                <a target="_blank" href="@Url.Action("ExamToMemberExam", "Members",new {id=item2.Id })">
+                                    <div class="col-md-2 portfolio-item filter-@item.Id">
+                                        <div class="portfolio-wrap">
+                                            <div class="card text-white bg-success mb-3s" style="max-width: 20rem;">
+                                                <div class="card-header">@item2.Title</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+            <br />
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        </section>
+
+
+
+    </main><!-- End #main -->
+
+
+
+    <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/Content/profil/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/php-email-form/validate.js"></script>
+    <script src="~/Content/profil/assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/counterup/counterup.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/venobox/venobox.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/typed.js/typed.min.js"></script>
+    <script src="~/Content/profil/assets/vendor/aos/aos.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/Content/profil/assets/js/main.js"></script>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
+  
+
+</body>
+
+</html>
