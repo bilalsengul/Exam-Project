@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using SanalDenemem.MvcWebUI.Areas.Admin.Views.Exams;
 using SanalDenemem.MvcWebUI.Entity;
+using System.Xml.Linq;
 
 namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
 {
@@ -183,12 +184,62 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             List<Question> questionlist = db.Questions.Where(x => x.ExamId == int.Parse(id)).ToList();
             return View(questionlist);
         }
-
+        public class xItem
+        {
+            public string title { get; set; }
+            public string link { get; set; }
+            public string pubDate { get; set; }
+            public string description { get; set; }
+        }
         [HttpPost]
         public JsonResult GetTopicsByLesson(int lessonId)
         {
-            List<Topic> TopicList = db.Topics.Where(x => x.LessonId == lessonId).ToList();
-            return Json(TopicList);
+
+            // List<Topic> TopicList = db.Topics.Where(x => x.LessonId == lessonId).ToList();
+            List<Topic> Topics = new List<Topic>();
+            List<string> RssLink = new List<string>();
+            RssLink.Add("https://www.wired.com/feed/rss");
+            RssLink.Add("https://www.wired.com/feed/category/business/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/culture/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/gear/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/ideas/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/science/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/security/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/transportation/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/backchannel/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/tag/wired-guide/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/photo/latest/rss");
+            try
+            {
+                List<xItem> xDocuments = new List<xItem>();
+                XDocument document = new XDocument();
+                foreach (var item in RssLink)
+                {
+                    document = XDocument.Load(item);
+                    foreach (var x in document.Descendants("item"))
+                    {
+                        xItem item1 = new xItem();
+
+
+                        item1.title = x.Element("title").Value;
+                        item1.link = x.Element("link").Value;
+                        item1.pubDate = x.Element("pubDate").Value;
+                        item1.description = x.Element("description").Value;
+                       
+                        xDocuments.Add(item1);
+                    }
+                    
+                }
+                var deneme = 0;
+                
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+            return Json(Topics);
         }
 
         public class QuestionRequestModel
