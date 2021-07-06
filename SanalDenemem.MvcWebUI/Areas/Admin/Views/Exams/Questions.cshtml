@@ -330,7 +330,7 @@
                     $('#DDLTopics option').remove();
                     $('#DDLTopics').append(createOption("Seçiniz...", "Seçiniz..."));
                     for (var i = 0; i < response.length; i++) {
-                        var option = createOption(response[i].Id, response[i].TopicName);
+                        var option = createOption(i, response[i].title);
                         $('#DDLTopics').append($(option));
                     }
                 },

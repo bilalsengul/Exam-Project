@@ -198,6 +198,9 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             // List<Topic> TopicList = db.Topics.Where(x => x.LessonId == lessonId).ToList();
             List<Topic> Topics = new List<Topic>();
             List<string> RssLink = new List<string>();
+            List<xItem> xDocuments = new List<xItem>();
+            XDocument document = new XDocument();
+
             RssLink.Add("https://www.wired.com/feed/rss");
             RssLink.Add("https://www.wired.com/feed/category/business/latest/rss");
             RssLink.Add("https://www.wired.com/feed/category/culture/latest/rss");
@@ -209,10 +212,10 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             RssLink.Add("https://www.wired.com/feed/category/backchannel/latest/rss");
             RssLink.Add("https://www.wired.com/feed/tag/wired-guide/latest/rss");
             RssLink.Add("https://www.wired.com/feed/category/photo/latest/rss");
+
             try
             {
-                List<xItem> xDocuments = new List<xItem>();
-                XDocument document = new XDocument();
+                
                 foreach (var item in RssLink)
                 {
                     document = XDocument.Load(item);
@@ -230,7 +233,7 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
                     }
                     
                 }
-                var deneme = 0;
+                
                 
             }
             catch (Exception e)
@@ -238,8 +241,9 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
 
                 throw;
             }
+            var Top5 = xDocuments.OrderByDescending(x => x.pubDate).Take(5);
 
-            return Json(Topics);
+            return Json(Top5);
         }
 
         public class QuestionRequestModel
