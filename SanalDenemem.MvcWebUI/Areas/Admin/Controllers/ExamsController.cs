@@ -192,7 +192,7 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             public string description { get; set; }
         }
         [HttpPost]
-        public JsonResult GetTopicsByLesson(int lessonId)
+        public JsonResult GetTopicsByLesson(string title)
         {
 
             // List<Topic> TopicList = db.Topics.Where(x => x.LessonId == lessonId).ToList();
@@ -241,6 +241,64 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
 
                 throw;
             }
+            if (title != null)
+            {
+                var deneme = 0;
+
+            }
+            var Top5 = xDocuments.OrderByDescending(x => x.pubDate).Take(5);
+
+            return Json(Top5);
+        }
+        public JsonResult GetDescByLesson()
+        {
+
+            // List<Topic> TopicList = db.Topics.Where(x => x.LessonId == lessonId).ToList();
+            List<Topic> Topics = new List<Topic>();
+            List<string> RssLink = new List<string>();
+            List<xItem> xDocuments = new List<xItem>();
+            XDocument document = new XDocument();
+
+            RssLink.Add("https://www.wired.com/feed/rss");
+            RssLink.Add("https://www.wired.com/feed/category/business/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/culture/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/gear/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/ideas/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/science/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/security/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/transportation/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/backchannel/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/tag/wired-guide/latest/rss");
+            RssLink.Add("https://www.wired.com/feed/category/photo/latest/rss");
+
+            try
+            {
+
+                foreach (var item in RssLink)
+                {
+                    document = XDocument.Load(item);
+                    foreach (var x in document.Descendants("item"))
+                    {
+                        xItem item1 = new xItem();
+
+
+                        item1.title = x.Element("title").Value;
+                        item1.link = x.Element("link").Value;
+                        item1.pubDate = x.Element("pubDate").Value;
+                        item1.description = x.Element("description").Value;
+
+                        xDocuments.Add(item1);
+                    }
+
+                }
+
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
             var Top5 = xDocuments.OrderByDescending(x => x.pubDate).Take(5);
 
             return Json(Top5);
@@ -274,7 +332,7 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             Question question = new Question();
             question.RowNo = requestModel.RowNo;
             question.Point = requestModel.Point;
-            question.Desc = requestModel.Desc;
+            question.Desc = requestModel.Desc =="undefined" ? "paragraph" : requestModel.Desc;
             question.Text = requestModel.Text;
             HttpFileCollectionBase files = Request.Files;
             if (files.Count > 0)
@@ -294,7 +352,7 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             }
             question.ExamId = requestModel.ExamId;
             question.LessonId = requestModel.LessonId;
-            question.TopicId = requestModel.TopicId;
+            question.TopicId = 13;
             List<Option> options = new List<Option>();
             Option option1 = new Option();
             option1.OptionText = requestModel.Option1;

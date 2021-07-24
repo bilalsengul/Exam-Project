@@ -4,11 +4,66 @@
     ViewBag.Title = "Admin | Sınavlar | Sorular";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseNewQuestion" aria-expanded="false" aria-controls="collapseNewQuestion">
+<button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseNewParagraph" aria-expanded="false" aria-controls="collapseNewQuestion" id="newQuestion">
+    Yeni Paragraf Ekle
+</button>
+<button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseNewQuestion" aria-expanded="false" aria-controls="collapseNewQuestion" id="newQuestion">
     Yeni Soru Ekle
 </button>
-
+<div style="margin-top: 1%;" class="collapse" id="collapseNewParagraph">
+    <div class="card card-body">
+        <div class="row">
+          
+            <div class="col-md-4">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="DDLLessons">Ders</label>
+                    </div>
+                    @Html.DropDownList("LessonId", null, htmlAttributes: new { @class = "custom-select", @id = "DDLLessons" })
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="DDLTopics">Konu</label>
+                    </div>
+                    <select class="custom-select" id="DDLTopics1">
+                        <option selected="">Seçiniz...</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="Text">Yazı</label>
+                    </div>
+                    <textarea type="text" class="form-control" id="Text1" placeholder="Giriniz..."></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="Image">Resim</label>
+                    </div>
+                    <div class="custom-file">
+                        <label class="custom-file-label" for="Image">Seçiniz...</label>
+                        <input type="file" class="custom-file-input" accept=".jpg,.png" id="Image">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-12">
+                <button class="btn btn-outline-success" type="button" onclick="SaveParagraph()">
+                    Kaydet
+                </button>
+                <button class="btn btn-outline-warning" type="button">
+                    Temizle
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div style="margin-top: 1%;" class="collapse" id="collapseNewQuestion">
     <div class="card card-body">
         <div class="row">
@@ -26,7 +81,7 @@
             <div class="col-md-3">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="Point">puan </label>
+                        <label class="input-group-text" for="Point">Puan </label>
                     </div>
                     <input type="number" class="form-control" id="Point" min="1" placeholder="Giriniz...">
                 </div>
@@ -44,24 +99,7 @@
                     @Html.DropDownList("LessonId", null, htmlAttributes: new { @class = "custom-select", @id = "DDLLessons" })
                 </div>
             </div>
-            <div class="col-md-5">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="DDLTopics">Konu</label>
-                    </div>
-                    <select class="custom-select" id="DDLTopics">
-                        <option selected="">Seçiniz...</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="Description">Açıklama</label>
-                    </div>
-                    <textarea type="text" class="form-control" id="Description" placeholder="Giriniz..."></textarea>
-                </div>
-            </div>
+          
             <div class="col-md-6">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -155,34 +193,60 @@
     {
         foreach (var item in Model.QuestionList)
         {
+            if (item.Desc == "paragraph") {
             <tr>
-                <td>
-                    @item.RowNo<input type="hidden" id="quesId" name="quesId" value="@item.Id">
-                </td>
-                <td>
-                    @item.Topic.Lesson.LessonName
-                </td>
-                <td>
-                    @item.Topic.TopicName
-                </td>
-                <td>
-                    @item.Desc
-                </td>
-                <td>
-                    @item.Text
-                </td>
-                <td>
-                    @item.Point
-                </td>
-                <td>
-                    @item.Options.Where(x => x.IsCorrect == true).FirstOrDefault().OptionText
-                </td>
-                <td>
-                    <input type="hidden" id="quesId" name="quesId" value="@item.Id">
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editQuestionModal" onclick="UpdateQuestion(@item.Id)">Düzenle</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteQuestionModal" onclick="DeleteQuestion(@item.Id)">Sil</button>
-                </td>
+                    <td>
+                       Paragraf Sorusu
+                    </td>
+                    <td>
+                        @item.Topic.Lesson.LessonName
+                    </td>
+                    <td>
+                        @item.Topic.TopicName
+                    </td>
+                    <td>
+                        @item.Desc
+                    </td>
+                    <td>
+                        @item.Text
+                    </td>
+                   
             </tr>
+            
+            }
+
+            else
+            {
+                <tr>
+                    <td>
+                        @item.RowNo<input type="hidden" id="quesId" name="quesId" value="@item.Id">
+                    </td>
+                    <td>
+                        @item.Topic.Lesson.LessonName
+                    </td>
+                    <td>
+                        @item.Topic.TopicName
+                    </td>
+                    <td>
+                        @item.Desc
+                    </td>
+                    <td>
+                        @item.Text
+                    </td>
+                    <td>
+                        @item.Point
+                    </td>
+                    <td>
+                        @item.Options.Where(x => x.IsCorrect == true).FirstOrDefault().OptionText
+                    </td>
+                    <td>
+                        <input type="hidden" id="quesId" name="quesId" value="@item.Id">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editQuestionModal" onclick="UpdateQuestion(@item.Id)">Düzenle</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteQuestionModal" onclick="DeleteQuestion(@item.Id)">Sil</button>
+                    </td>
+                </tr>
+            }
+
         }
     }
 </table>
@@ -225,14 +289,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="UpdDescription">Açıklama</label>
                             </div>
                             <textarea type="text" class="form-control" id="UpdDescription" placeholder="Giriniz..."></textarea>
                         </div>
-                    </div>
+                    </div>*@
                     <div class="col-md-6">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -319,35 +383,7 @@
         $('#DDLLessons').val("Seçiniz...");
     });
 
-    $('#DDLLessons').change(function () {
-        if ($('#DDLLessons').val() != 'Seçiniz...') {
-            $('#DDLTopics').attr('disabled', false);
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetTopicsByLesson", "Exams")',
-                data: { 'lessonId': $(this).val()},
-                success: function (response) {
-                    $('#DDLTopics option').remove();
-                    $('#DDLTopics').append(createOption("Seçiniz...", "Seçiniz..."));
-                    for (var i = 0; i < response.length; i++) {
-                        var option = createOption(i, response[i].title);
-                        $('#DDLTopics').append($(option));
-                    }
-                },
-                failure: function (response) {
-                    console.log(response);
-                },
-                error: function (response) {
-                    console.log(response);
-                }
-            });
-        }
-        else {
-            $('#DDLTopics option').remove();
-            $('#DDLTopics').append(createOption("Seçiniz...", "Seçiniz..."));
-            $('#DDLTopics').attr('disabled', true);
-        }
-    });
+ 
 
     $('input[type=file]').change(function () {
         if ($(this).val().split('.')[1] == 'png' || $(this).val().split('.')[1] == 'jpg') {
@@ -413,6 +449,40 @@
     }
 </script>
 <script>
+    function SaveParagraph() {
+        var arr = window.location.href.split('/');
+        var fileData = new FormData();
+
+        fileData.append('Desc', $('#Description').val());
+        fileData.append('Text', $('#Text').val());
+        var files = document.getElementById("Image").files;
+        if (files.length != 0) { fileData.append(files[0].name, files[0]); }
+        fileData.append('ExamId', arr[arr.length - 1]);
+        fileData.append('LessonId', $('#DDLLessons').val());
+        fileData.append('TopicId', $('#DDLTopics1').val());
+
+
+        if (inputValidationParagraph()) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("InsertQuestion", "Exams")',
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (response) {
+                    if (response.IsSuccess) {
+                        location.reload();
+                    }
+                    else {
+                        console.log(response);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        }
+    }
     function SaveQuestion() {
         var arr = window.location.href.split('/');
         var fileData = new FormData();
@@ -458,14 +528,19 @@
         }
     }
 
+    function inputValidationParagraph() {
+        
+        if ($('#DDLTopics1').val() == "Seçiniz...") { alert("Konu seçmelisiniz."); return false; }
+        if ($('#Text1').val() == "") { alert("Yazı girmelisiniz."); return false; }
+          return true;
+    }
     function inputValidation() {
         let curRowNo = $('#RowNumber').val();
         let rowNos = [];
         @foreach (var item in Model.QuestionList) { <text>rowNos.push(@item.RowNo);</text> }
         if (jQuery.inArray(parseInt(curRowNo), rowNos) != -1) { alert("Girdiğiniz Satır Numarası zaten var."); return false; }
         ///////////
-        if ($('#DDLLessons').val() == "Seçiniz...") { alert("Ders seçmelisiniz."); return false; }
-        if ($('#DDLTopics').val() == "Seçiniz...") { alert("Konu seçmelisiniz."); return false; }
+        
         if ($('#Text').val() == "") { alert("Yazı girmelisiniz."); return false; }
         if ($('#Option1').val() == "") { alert("1. Seçenek girmelisiniz."); return false; }
         if ($('#Option2').val() == "") { alert("2. Seçenek girmelisiniz."); return false; }
@@ -606,21 +681,25 @@
             }
         });
     }
-
-    $('#UpdDDLLessons').change(function () {
-        if ($('#UpdDDLLessons').val() != 'Seçiniz...') {
-            $('#UpdDDLTopics').attr('disabled', false);
+    var data;
+    $('#newQuestion').click(function () {
+        debugger;
+        if (true) {
+            $('#DDLTopics1 option').remove();
+            $('#DDLTopics1').append(createOption("Yükleniyor...", "Yükleniyor..."));
+            $('#DDLTopics1').attr('disabled', true);
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetTopicsByLesson", "Exams")',
-                data: { 'lessonId': $(this).val()},
                 success: function (response) {
-                    $('#UpdDDLTopics option').remove();
-                    $('#UpdDDLTopics').append(createOption("Seçiniz...", "Seçiniz..."));
+                    $('#DDLTopics1 option').remove();
+                    $('#DDLTopics1').append(createOption("Seçiniz...", "Seçiniz..."));
                     for (var i = 0; i < response.length; i++) {
-                        var option = createOption(response[i].Id, response[i].TopicName);
-                        $('#UpdDDLTopics').append($(option));
+                        var option = createOption(i, response[i].title);
+                        $('#DDLTopics1').append($(option));
                     }
+                    $('#DDLTopics1').attr('disabled', false);
+                    data=response;
                 },
                 failure: function (response) {
                     console.log(response);
@@ -631,10 +710,17 @@
             });
         }
         else {
-            $('#UpdDDLTopics option').remove();
-            $('#UpdDDLTopics').append(createOption("Seçiniz...", "Seçiniz..."));
-            $('#UpdDDLTopics').attr('disabled', true);
+            $('#UpdDDLTopics1 option').remove();
+            $('#UpdDDLTopics1').append(createOption("Yükleniyor...", "Yükleniyor..."));
+            $('#UpdDDLTopics1').attr('disabled', true);
         }
+    });
+
+    $('#DDLTopics1').change(function () {
+     
+        $('#Text1').val(data[$('#DDLTopics1').val()].description);
+
+
     });
 
 </script>
