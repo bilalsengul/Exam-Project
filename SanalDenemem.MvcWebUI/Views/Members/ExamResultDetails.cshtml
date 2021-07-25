@@ -71,14 +71,14 @@
 
 
 
-            <div class="col-md-3">
+            @*<div class="col-md-3">
                 <div class="card text-white bg-primary mb-3" style="        max-width: 20rem;">
                     <div class="card-header">Puan</div>
                     <div class="card-body">
                         <h5 class="card-title" style="text-align: center;color:antiquewhite">@ViewBag.total</h5>
                     </div>
                 </div>
-            </div>
+            </div>*@
 
 
             <div class="col-md-3">
@@ -124,7 +124,46 @@
         <div class="col-md-12" style="margin: 2%;">
             @foreach (var item in Model)
             {
-                <div class="card test-panel" style="margin-top: 2%;">
+                 if (item.Question.RowNo == 0)
+                {
+            <div class="card test-panel col-md-12 p-1" style="margin-top: 2%;margin-bottom: 2%;">
+
+                <div class="card-header">
+                    <h2>Paragraf Sorusu</h2>
+                </div>
+                <div class="card-body">
+                    @if (item.Question.Image != null)
+                    {
+            <div style="text-align: center;">
+                <img style="max-height: 400px; max-width: 100%; object-fit: cover;" src="~/Content/Uploads/Questions/@item.Question.Image" />
+            </div>}
+                    <p style="font-size: 2rem; font-weight: bold;">@item.Question.Desc</p>
+                    <p style="font-size: 1.5rem; font-weight: 400; margin-top: 1%;">@item.Question.Text</p>
+
+
+                    <div class="col-md-12" style="padding: 0;">
+                        <br>
+                        @foreach (var opt in item.Question.Options)
+                        {
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" style="font-size: 1.8rem !important;">
+                        <input name="@opt.QuestionId-ques" id="@opt.Id-opt" type="radio" class="ml-1" style="width: 1em; height: 1em;" onclick="sendAnswer(this)">
+
+                    </div>
+                </div>
+                <label for="@opt.QuestionId-ques" class="form-control test-option" style="font-size: 1.8rem !important; height: fit-content;">@opt.OptionText</label><br>
+            </div>
+                                    <br>}
+
+                    </div>
+                </div>
+            </div>
+                <br>
+                }
+                else
+                {
+                    <div class="card test-panel" style="margin-top: 2%;">
 
                     <div class="card-header">
                         <h2>Soru: @item.Question.RowNo</h2>
@@ -136,7 +175,11 @@
                                 <img style="max-height: 400px; max-width: 100%; object-fit: cover;" src="~/Content/Uploads/Questions/@item.Question.Image" />
                             </div>
                         }
-                        <p style="font-size: 1.5rem; font-weight: 400; margin-top: 1%;">@item.Question.Desc</p>
+                        @if (@item.Question.Desc !="undefined")
+                        {
+                            <p style="font-size: 1.5rem; font-weight: 400; margin-top: 1%;">@item.Question.Desc</p>
+                        }
+                        
                         <p style="font-size: 2rem; font-weight: bold;">@item.Question.Text</p>
 
                         <div class="col-md-12" style="padding: 0;">
@@ -178,6 +221,8 @@
                         </div>
                     </div>
                 </div>
+                }
+                
             }
         </div>
     </div>

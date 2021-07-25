@@ -183,7 +183,7 @@
         <th>Sıra No</th>
         <th>Ders</th>
         <th>Konu</th>
-        <th>Açıklama</th>
+        <th>Başlık</th>
         <th>Yazı</th>
         <th>Puan</th>
         <th>Doğru Cevap</th>
@@ -191,9 +191,10 @@
     </tr>
     @if (Model.QuestionList.Count > 0)
     {
-        foreach (var item in Model.QuestionList)
+        var sortList = Model.QuestionList.OrderBy(x=>x.RowNo);
+        foreach (var item in sortList)
         {
-            if (item.Desc == "paragraph") {
+            if (item.RowNo == 0) {
             <tr>
                     <td>
                        Paragraf Sorusu
@@ -228,7 +229,15 @@
                         @item.Topic.TopicName
                     </td>
                     <td>
-                        @item.Desc
+                        @if (@item.Desc == "undefined")
+                        {
+                            <text>Soru </text> @item.RowNo
+                        }
+                        else
+                        {
+                            @item.Desc
+                        }
+                      
                     </td>
                     <td>
                         @item.Text
@@ -453,8 +462,8 @@
         var arr = window.location.href.split('/');
         var fileData = new FormData();
 
-        fileData.append('Desc', $('#Description').val());
-        fileData.append('Text', $('#Text').val());
+        fileData.append('Desc', $('#DDLTopics1 :selected').text());
+        fileData.append('Text', $('#Text1').val());
         var files = document.getElementById("Image").files;
         if (files.length != 0) { fileData.append(files[0].name, files[0]); }
         fileData.append('ExamId', arr[arr.length - 1]);

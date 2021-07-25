@@ -332,7 +332,7 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             Question question = new Question();
             question.RowNo = requestModel.RowNo;
             question.Point = requestModel.Point;
-            question.Desc = requestModel.Desc =="undefined" ? "paragraph" : requestModel.Desc;
+            question.Desc = requestModel.Desc;
             question.Text = requestModel.Text;
             HttpFileCollectionBase files = Request.Files;
             if (files.Count > 0)
@@ -351,7 +351,7 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
                 question.Image = null;
             }
             question.ExamId = requestModel.ExamId;
-            question.LessonId = requestModel.LessonId;
+            question.LessonId =13;
             question.TopicId = 13;
             List<Option> options = new List<Option>();
             Option option1 = new Option();
@@ -374,11 +374,16 @@ namespace SanalDenemem.MvcWebUI.Areas.Admin.Controllers
             option5.OptionText = requestModel.Option5;
             option5.IsCorrect = requestModel.Option5State;
             option5.QuestionId = question.Id;
-            options.Add(option1);
-            options.Add(option2);
-            options.Add(option3);
-            options.Add(option4);
-            options.Add(option5);
+            if (option1.OptionText != null)
+            {
+                options.Add(option1);
+                options.Add(option2);
+                options.Add(option3);
+                options.Add(option4);
+                options.Add(option5);
+
+            }
+           
             question.Options = options;
             try
             {
